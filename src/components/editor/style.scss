@@ -1,0 +1,11 @@
+@import "~bulma/bulma";
+
+.editor-card {
+  width: 30em;
+  padding: 1em;
+  border-radius: 5px;
+
+  .editor-emotion-text {
+    font-family: Arial, serif;
+  }
+}
