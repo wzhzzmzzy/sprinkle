@@ -8,4 +8,20 @@
   .editor-emotion-text {
     font-family: Arial, serif;
   }
+
+  .editor-submit {
+    color: $link;
+  }
+
+  .editor-rules {
+    color: $primary;
+  }
+
+  .get-backup {
+    color: $primary;
+  }
+
+  .file-name {
+    max-width: 8em;
+  }
 }
