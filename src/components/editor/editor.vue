@@ -1,57 +1,52 @@
 <template lang="pug">
 div(class="editor-card")
-  nav(class="editor-tools-bar level")
-    div(class="level-left")
-      div(class="level-item")
-        div(class="field")
-          div(class="control")
-            div(class="select is-small")
-              select(@change="handleSelectEmotion")
-                option(
-                  v-for="emotion in EMOTION_TEXTS"
-                  :key="emotion"
-                  :value="emotion"
-                  :selected="emotion === RANDOM_EMOTION"
-                ) {{ emotion }}
-      div(class="level-item")
-        div(class="field")
-          div(class="file has-name is-small")
-            label(class="file-label")
-              input(class="file-input" type="file" name="file" accept="image/*" @change="handleUpload")
-              span(class="file-cta")
-                span(class="file-icon")
-                  i(class="fas fa-file-upload")
-                span(class="file-label") 选择文件
-              span(class="file-label")
-            span(class="file-name") {{ draft.image && draft.image.name }}
-    div(class="level-right")
-      div(class="level-item")
-        button(class="button is-small is-rounded is-white")
-          span(class="editor-rules icon is-small" @click="handleSubmit")
-            i(class="fas fa-lg fa-exclamation-circle")
-      div(class="level-item")
-        button(class="button is-small is-rounded is-white")
-          span(class="editor-submit icon is-small" @click="handleSubmit")
-            i(class="fas fa-lg fa-arrow-circle-right")
-  div(class="field")
-    p(class="control has-icons-left")
-      input(class="input is-small" type="text" placeholder="没见过什么人写的标题")
-      span(class="icon is-small is-left")
-        i(class="fas fa-bell")
-  div(class="field")
-    div(class="control")
-      textarea(
-        class="textarea has-fixed-size"
-        placeholder="发串前请先阅读版规"
-        :value="draft.content"
-        @input="e => handleInput(e.target.value)"
-      )
-      p(class="help" v-if="backup.hasOldDraft && !backup.readBackup")
-        span(class="get-backup icon is-small" @click="readBackup")
-          i(class="fas fa-sm fa-check")
-        | 点击读取草稿：{{ backup.oldBackupTime.toLocaleString('zh-CN') }}
-      p(class="help is-success" v-if="backup.hasBackup && backup.newBackupTime")
-        | 草稿已备份：{{ backup.newBackupTime.toLocaleString('zh-CN') }}
+  div(class="editor-tools-bar")
+    div(class="bar-left")
+      div(class="field emotion-select"): div(class="control")
+        div(class="select is-small")
+          select(@change="handleSelectEmotion")
+            option(
+              v-for="emotion in EMOTION_TEXTS"
+              :key="emotion"
+              :value="emotion"
+              :selected="emotion === RANDOM_EMOTION"
+            ) {{ emotion }}
+      div(class="field image-upload"): div(class="file has-name is-small")
+          label(class="file-label")
+            input(class="file-input" type="file" name="file" accept="image/*" @change="handleUpload")
+            span(class="file-cta")
+              span(class="file-icon"): i(class="fas fa-file-upload")
+              span(class="file-label") 选择文件
+            span(class="file-label")
+          span(class="file-name") {{ draft.image && draft.image.name }}
+    div(class="bar-right")
+      button(class="button is-small is-rounded is-white")
+        span(class="editor-rules icon is-small" @click="handleSubmit")
+          i(class="fas fa-lg fa-exclamation-circle")
+      button(class="button is-small is-rounded is-white")
+        span(class="editor-submit icon is-small" @click="handleSubmit")
+          i(class="fas fa-lg fa-arrow-circle-right")
+  div(class="field"): p(class="control has-icons-left")
+    input(
+      class="input is-small"
+      type="text"
+      placeholder="没见过什么人写的标题"
+      @input="e => handleInput('title', e.target.value)"
+    )
+    span(class="icon is-small is-left"): i(class="fas fa-bell")
+  div(class="field"): div(class="control")
+    textarea(
+      class="textarea has-fixed-size"
+      placeholder="发串前请先阅读版规"
+      :value="draft.content"
+      @input="e => handleInput('content', e.target.value)"
+    )
+    p(class="help" v-if="backup.hasOldDraft && !backup.readBackup")
+      span(class="get-backup icon is-small" @click="readBackup")
+        i(class="fas fa-sm fa-check")
+      | 点击读取草稿：{{ backup.oldBackupTime.toLocaleString('zh-CN') }}
+    p(class="help is-success" v-if="backup.hasBackup && backup.newBackupTime")
+      | 草稿已备份：{{ backup.newBackupTime.toLocaleString('zh-CN') }}
 </template>
 
 <script lang="ts">
@@ -96,8 +91,8 @@ export default defineComponent({
     const handleUpload = (e: Event) => {
       handleChangeDraft('image', (e.target as HTMLInputElement).files?.[0]);
     };
-    const handleInput = debounce((e: string) => {
-      handleChangeDraft('content', e);
+    const handleInput = debounce((field: keyof Draft, e: string) => {
+      handleChangeDraft(field, e);
       if (!backup.hasBackup) backup.hasBackup = true;
       backup.newBackupTime = new Date();
       window.localStorage.setItem(
@@ -109,7 +104,7 @@ export default defineComponent({
       );
     }, 1000, { leading: true, trailing: true });
     const handleSelectEmotion = (e: Event) => {
-      handleInput(draft.content + (e.target as HTMLSelectElement).value);
+      handleInput('content', draft.content + (e.target as HTMLSelectElement).value);
     };
     const readBackup = () => {
       const oldDraft = pickDraft(backup.oldDraft);

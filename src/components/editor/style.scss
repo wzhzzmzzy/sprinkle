@@ -5,6 +5,26 @@
   padding: 1em;
   border-radius: 5px;
 
+  .editor-tools-bar {
+    display: flex;
+    justify-content: space-between;
+
+    .bar-left {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+
+    .bar-right {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
+
+  .emotion-select {
+    margin-right: 1.5em;
+  }
+
   .editor-emotion-text {
     font-family: Arial, serif;
   }
@@ -22,6 +42,6 @@
   }
 
   .file-name {
-    max-width: 8em;
+    width: 8em;
   }
 }
