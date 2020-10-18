@@ -11,20 +11,36 @@ div(class="editor-card")
               :value="emotion"
               :selected="emotion === RANDOM_EMOTION"
             ) {{ emotion }}
-      div(class="field image-upload"): div(class="file has-name is-small")
-          label(class="file-label")
-            input(class="file-input" type="file" name="file" accept="image/*" @change="handleUpload")
-            span(class="file-cta")
-              span(class="file-icon"): i(class="fas fa-file-upload")
-              span(class="file-label") 选择文件
-            span(class="file-label")
-          span(class="file-name") {{ draft.image && draft.image.name }}
+      div(class="field image-upload"): div(class="file is-small")
+        label(class="file-label")
+          input(
+            class="file-input"
+            type="file"
+            name="file"
+            accept="image/*"
+            ref="uploadEl"
+            @change="handleUpload"
+          )
+          span(class="file-cta")
+            span(class="file-icon"): i(class="fas fa-file-upload")
+            span(class="file-label"): span(class="image-name") {{ imageName }}
+      button(
+        class="button is-small is-rounded is-white"
+        v-if="draft.image"
+        @click="deleteImage"
+      )
+        span(class="upload-reset icon is-small")
+          i(class="fas fa-lg fa-minus-circle")
     div(class="bar-right")
-      button(class="button is-small is-rounded is-white")
-        span(class="editor-rules icon is-small" @click="handleSubmit")
+      button(class="button is-small is-rounded is-white"  @click="openRules")
+        span(class="editor-rules icon is-small")
           i(class="fas fa-lg fa-exclamation-circle")
-      button(class="button is-small is-rounded is-white")
-        span(class="editor-submit icon is-small" @click="handleSubmit")
+      button(
+        class="button is-small is-rounded is-white is-hidden-touch"
+        style="color: hsl(204, 86%, 53%)"
+        @click="handleSubmit"
+      )
+        span(class="editor-submit icon is-small")
           i(class="fas fa-lg fa-arrow-circle-right")
   div(class="field"): p(class="control has-icons-left")
     input(
@@ -36,7 +52,7 @@ div(class="editor-card")
     span(class="icon is-small is-left"): i(class="fas fa-bell")
   div(class="field"): div(class="control")
     textarea(
-      class="textarea has-fixed-size"
+      class="textarea is-small"
       placeholder="发串前请先阅读版规"
       :value="draft.content"
       @input="e => handleInput('content', e.target.value)"
@@ -47,10 +63,17 @@ div(class="editor-card")
       | 点击读取草稿：{{ backup.oldBackupTime.toLocaleString('zh-CN') }}
     p(class="help is-success" v-if="backup.hasBackup && backup.newBackupTime")
       | 草稿已备份：{{ backup.newBackupTime.toLocaleString('zh-CN') }}
+  button(
+    class="button is-small is-rounded is-link is-hidden-desktop"
+    @click="handleSubmit"
+  )
+    span(class="editor-submit icon is-small")
+      i(class="fas fa-lg fa-arrow-circle-right")
+    span 发送
 </template>
 
 <script lang="ts">
-import { reactive, defineComponent, onMounted } from 'vue';
+import { ref, reactive, defineComponent, onMounted, computed } from 'vue';
 import { random, pick } from 'lodash/fp';
 import { debounce } from 'lodash';
 import { Draft } from '@/types';
@@ -72,6 +95,7 @@ export default defineComponent({
       oldBackupTime: undefined,
       readBackup: false
     });
+    const uploadEl = ref<HTMLInputElement|null>(null);
     const pickDraft = pick(['title', 'content']);
     const RANDOM_EMOTION = EMOTION_TEXTS[random(0, EMOTION_TEXTS.length)];
     onMounted(() => {
@@ -85,11 +109,21 @@ export default defineComponent({
     const handleSubmit = () => {
       context.emit('submit', draft);
     };
+    const openRules = () => {
+      // TODO 打开版规页面
+    };
     const handleChangeDraft = (field: keyof Draft, value?: any) => {
       (draft[field] as any) = value;
     };
+    const imageName = computed(() => {
+      return draft.image ? draft.image.name : '选择图片';
+    });
     const handleUpload = (e: Event) => {
-      handleChangeDraft('image', (e.target as HTMLInputElement).files?.[0]);
+      handleChangeDraft('image', uploadEl.value?.files?.[0]);
+    };
+    const deleteImage = () => {
+      if (uploadEl.value) uploadEl.value.value = '';
+      draft.image = undefined;
     };
     const handleInput = debounce((field: keyof Draft, e: string) => {
       handleChangeDraft(field, e);
@@ -117,12 +151,16 @@ export default defineComponent({
       RANDOM_EMOTION,
       draft,
       backup,
+      uploadEl,
+      imageName,
       readBackup,
       handleSelectEmotion,
       handleSubmit,
+      openRules,
       handleChangeDraft,
       handleInput,
-      handleUpload
+      handleUpload,
+      deleteImage
     };
   }
 });

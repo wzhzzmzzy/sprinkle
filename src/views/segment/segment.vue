@@ -1,13 +1,18 @@
 <template lang="pug">
-editor
+main-layout
+  editor
 </template>
 
 <script>
 import Editor from '@/components/editor/editor';
+import MainLayout from '@/layout/main/main.vue';
 
 export default {
   name: 'Segment',
-  components: { Editor }
+  components: {
+    MainLayout,
+    Editor
+  }
 };
 </script>
 

@@ -22,4 +22,4 @@ module.exports = {
     'layout', // 布局
     'router' // 路由
   ]]
-}
+};
