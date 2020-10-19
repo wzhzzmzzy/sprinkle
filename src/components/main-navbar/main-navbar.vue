@@ -1,5 +1,5 @@
 <template lang="pug">
-nav(class="navbar is-light has-shadow is-fixed-top")
+nav(class="navbar has-shadow is-fixed-top")
   div(class="navbar-brand")
     a(class="navbar-item" href="/") Ralph-NMB
     a(
@@ -49,9 +49,28 @@ nav(class="navbar is-light has-shadow is-fixed-top")
               type="text"
               placeholder="输入关键词或串号"
             )
+      div(class="navbar-item" v-if="hasLogin")
+        div(class="field has-addons")
+          p(class="control")
+            button(
+              class="button is-small is-rounded is-light is-warning"
+              @click="to('Mine')"
+            )
+              span(class="icon is-small")
+                i(class="fas fa-cookie")
+              span 账户
+          p(class="control")
+            button(class="button is-small is-rounded is-link is-light")
+              span(class="icon is-small")
+                i(class="fas fa-thumbtack")
+              span 订阅
       div(class="navbar-item")
         div(class="buttons")
-          button(class="button is-primary is-rounded is-small")
+          button(
+            v-if="!hasLogin"
+            class="button is-primary is-rounded is-small"
+            @click="handleLogin"
+          )
             span(class="icon is-small")
               i(class="fas fa-walking")
             span 登录
@@ -59,16 +78,26 @@ nav(class="navbar is-light has-shadow is-fixed-top")
             span(class="icon is-small")
               i(class="fas fa-edit")
             span 发串
+login-modal
 </template>
 
 <script lang="ts">
-import { ref, reactive, defineComponent } from 'vue';
+import { ref, defineComponent } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { CHANNEL_ROUTES } from '@/utils/constants';
+import { hasLogin, removeToken, setToken } from '@/utils/auth';
 import { useExpendMenu } from '@/utils';
+import LoginModal from '@/components/login-modal/login-modal.vue';
 
 export default defineComponent({
   name: 'main-navbar',
-  setup (props, context) {
+  components: {
+    LoginModal
+  },
+  setup () {
+    const store = useStore();
+    const router = useRouter();
     const burgerEl = ref<HTMLElement|null>(null);
     const navbarEl = ref<HTMLElement|null>(null);
     const toggleMobileNavbar = () => {
@@ -77,11 +106,29 @@ export default defineComponent({
       // eslint-disable-next-line no-unused-expressions
       navbarEl.value?.classList.toggle('is-active');
     };
+    const handleLogin = () => {
+      store.commit('user/setToken', 'test-token');
+      setToken('test-token');
+    };
+    const handleSwitchCookie = () => {
+      store.commit('user/setToken', '');
+      removeToken();
+    };
+    const to = (name: string, query: any) => {
+      return router.push({
+        name,
+        query
+      });
+    };
     return {
       CHANNEL_ROUTES,
+      hasLogin: hasLogin(),
       burgerEl,
       navbarEl,
       toggleMobileNavbar,
+      handleLogin,
+      handleSwitchCookie,
+      to,
       ...useExpendMenu()
     };
   }

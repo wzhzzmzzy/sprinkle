@@ -17,4 +17,13 @@ $menu-item-active-background-color: hsl(171, 100%, 41%);
   &-list-hide {
     max-height: 0;
   }
+  .setting-icon {
+    transition: transform 300ms linear;
+  }
+  .setting-icon:hover {
+    transform: rotate(180deg);
+  }
+  .tag {
+    height: 1em;
+  }
 }
