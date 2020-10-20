@@ -1,6 +1,6 @@
 <template lang="pug">
 main-navbar
-main(id="main-body" class="hero is-fullheight-with-navbar")
+main(id="main-body")
   main-sidebar(class="is-hidden-touch")
   slot
 </template>

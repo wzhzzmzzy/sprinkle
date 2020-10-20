@@ -1,16 +1,36 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import Home from '../views/Home.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Segment',
-    component: () => import('../views/segment/segment.vue')
+    component: () => import('@/views/segment/segment.vue')
   },
   {
     path: '/mine',
     name: 'Mine',
-    component: () => import('../views/mine/mine.vue')
+    component: () => import('@/views/mine/mine.vue'),
+    children: [
+      {
+        path: '',
+        redirect: '/mine/cookies'
+      },
+      {
+        name: 'settings',
+        path: 'settings',
+        component: () => import('@/views/settings/settings.vue')
+      },
+      {
+        name: 'my-cookies',
+        path: 'cookies',
+        component: () => import('@/views/my-cookies/my-cookies.vue')
+      },
+      {
+        name: 'my-subscribe',
+        path: 'subscribe',
+        component: () => import('@/views/my-subscribe/my-subscribe.vue')
+      }
+    ]
   }
 ];
 

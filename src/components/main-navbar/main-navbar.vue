@@ -54,13 +54,16 @@ nav(class="navbar has-shadow is-fixed-top")
           p(class="control")
             button(
               class="button is-small is-rounded is-light is-warning"
-              @click="to('Mine')"
+              @click="to('my-cookies')"
             )
               span(class="icon is-small")
                 i(class="fas fa-cookie")
               span 账户
           p(class="control")
-            button(class="button is-small is-rounded is-link is-light")
+            button(
+              class="button is-small is-rounded is-link is-light"
+              @click="to('my-subscribe')"
+            )
               span(class="icon is-small")
                 i(class="fas fa-thumbtack")
               span 订阅

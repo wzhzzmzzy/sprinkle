@@ -26,7 +26,7 @@ div(class="sidebar")
 </template>
 
 <script lang="ts">
-import { ref, reactive, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { CHANNEL_ROUTES } from '@/utils/constants';
 import { useExpendMenu } from '@/utils';
 

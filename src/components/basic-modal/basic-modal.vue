@@ -19,7 +19,7 @@ import { defineComponent } from 'vue';
 
 interface ButtonProp {
   text: string;
-  onClick: (Event) => never;
+  onClick: (e: Event) => never;
 }
 
 export default defineComponent({
