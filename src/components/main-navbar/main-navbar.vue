@@ -16,8 +16,8 @@ nav(class="navbar has-shadow is-fixed-top")
   div(id="navbar-main" class="navbar-menu" ref="navbarEl")
     div(class="navbar-start is-hidden-desktop")
       template(v-for="channelList in CHANNEL_ROUTES")
-        div(class="navbar-item is-size-7")
-          span(class="icon is-small mr-1" @click="toggleSideList(channelList.key)")
+        div(class="navbar-item is-size-7" @click="toggleSideList(channelList.key)")
+          span(class="icon is-small mr-1")
             i(
               class="fas"
               :class="{'fa-plus': listExpendStatus[channelList.key], 'fa-minus': !listExpendStatus[channelList.key]}"
@@ -74,32 +74,46 @@ nav(class="navbar has-shadow is-fixed-top")
             span(class="icon is-small")
               i(class="fas fa-walking")
             span 登录
-          button(class="button is-info is-rounded is-small")
+          button(class="button is-info is-rounded is-small" @click="toggleEditorModal(true)")
             span(class="icon is-small")
               i(class="fas fa-edit")
             span 发串
 login-modal
+editor(:loading="loading.replySubmit" @submit="handleSubmitReply")
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { ref, defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { CHANNEL_ROUTES } from '@/utils/constants';
 import { hasLogin, removeToken, setToken } from '@/utils/auth';
+import { Draft } from '@/types';
 import { useExpendMenu } from '@/utils';
 import LoginModal from '@/components/login-modal/login-modal.vue';
+import Editor from '@/components/editor/editor.vue';
+
+interface LoadingStatus {
+  replySubmit: boolean;
+}
 
 export default defineComponent({
   name: 'main-navbar',
   components: {
-    LoginModal
+    LoginModal,
+    Editor
   },
   setup () {
     const store = useStore();
     const router = useRouter();
     const burgerEl = ref<HTMLElement|null>(null);
     const navbarEl = ref<HTMLElement|null>(null);
+    const loading = reactive<LoadingStatus>({
+      replySubmit: false
+    });
+    const toggleEditorModal = (val: boolean) => {
+      store.commit('toggleEditorModal', val);
+    };
     const toggleMobileNavbar = () => {
       // eslint-disable-next-line no-unused-expressions
       burgerEl.value?.classList.toggle('is-active');
@@ -114,7 +128,15 @@ export default defineComponent({
       store.commit('user/setToken', '');
       removeToken();
     };
-    const to = (name: string, query: any) => {
+    const handleSubmitReply = (content: Draft) => {
+      loading.replySubmit = true;
+      console.log(content);
+      setTimeout(() => {
+        toggleEditorModal(false);
+        loading.replySubmit = false;
+      }, 1000);
+    };
+    const to = (name: string, query: any = {}) => {
       return router.push({
         name,
         query
@@ -123,11 +145,14 @@ export default defineComponent({
     return {
       CHANNEL_ROUTES,
       hasLogin: hasLogin(),
+      loading,
       burgerEl,
       navbarEl,
+      toggleEditorModal,
       toggleMobileNavbar,
       handleLogin,
       handleSwitchCookie,
+      handleSubmitReply,
       to,
       ...useExpendMenu()
     };

@@ -1,15 +1,10 @@
 <template lang="pug">
-editor
 </template>
 
 <script>
-import Editor from '@/components/editor/editor';
 
 export default {
-  name: 'Segment',
-  components: {
-    Editor
-  }
+  name: 'Segment'
 };
 </script>
 
