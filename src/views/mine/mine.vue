@@ -11,12 +11,13 @@ div(class="container")
           span(class="icon is-small")
             i(class="fas" :class="[tab.icon]")
           span {{ tab.title }}
+  router-view
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { TabRoute } from '@/types';
+import { ChannelRoute } from '@/types';
 import { TABS } from './constants';
 
 export default defineComponent({
@@ -24,7 +25,7 @@ export default defineComponent({
   setup () {
     const router = useRouter();
     const route = useRoute();
-    const switchTab = (tab: TabRoute) => {
+    const switchTab = (tab: ChannelRoute) => {
       router.push({
         name: tab.route
       });

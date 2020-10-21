@@ -1,0 +1,17 @@
+@import "~bulma/bulma";
+
+.cookie-item {
+  display: flex;
+  justify-content: left;
+
+  &-content {
+    flex: 1;
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  .cancel-btn, .cancel-btn:hover, .cancel-btn:active {
+    color: $danger;
+    background-color: transparent;
+  }
+}

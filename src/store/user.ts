@@ -1,11 +1,18 @@
 import { MutationTree } from 'vuex';
+import { UserState } from '@/types';
 
-interface UserState {
-  token: string;
-}
+const TEST_COOKIES = [
+  'test-cookie1',
+  'test-cookie2',
+  'test-cookie3',
+  'test-cookie4',
+  'test-cookie5'
+];
 
 export const userState: () => UserState = () => ({
-  token: ''
+  token: '',
+  cookies: TEST_COOKIES,
+  currentCookie: 'test-cookie1'
 });
 
 export const userMutations: MutationTree<UserState> = {

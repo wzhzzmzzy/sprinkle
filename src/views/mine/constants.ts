@@ -1,6 +1,6 @@
-import { TabRoute } from '@/types';
+import { ChannelRoute } from '@/types';
 
-export const TABS: TabRoute[] = [
+export const TABS: ChannelRoute[] = [
   {
     title: '饼干',
     icon: 'fa-cookie-bite',

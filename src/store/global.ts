@@ -1,8 +1,5 @@
 import { MutationTree } from 'vuex';
-
-interface GlobalState {
-  editorVisible: boolean;
-}
+import { GlobalState } from '@/types';
 
 export const globalState: () => GlobalState = () => ({
   editorVisible: false

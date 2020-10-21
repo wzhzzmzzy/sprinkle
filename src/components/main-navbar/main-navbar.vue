@@ -16,25 +16,25 @@ nav(class="navbar has-shadow is-fixed-top")
   div(id="navbar-main" class="navbar-menu" ref="navbarEl")
     div(class="navbar-start is-hidden-desktop")
       template(v-for="channelList in CHANNEL_ROUTES")
-        div(class="navbar-item is-size-7" @click="toggleSideList(channelList.key)")
+        div(class="channel-item navbar-item is-size-7" @click="toggleSideList(channelList.route)")
           span(class="icon is-small mr-1")
             i(
               class="fas"
-              :class="{'fa-plus': listExpendStatus[channelList.key], 'fa-minus': !listExpendStatus[channelList.key]}"
+              :class="{'fa-plus': listExpendStatus[channelList.route], 'fa-minus': !listExpendStatus[channelList.route]}"
             )
-          span {{ channelList.name }}
+          span {{ channelList.title }}
         ul(
           class="navbar-list"
-          :style="{ 'max-height': !listExpendStatus[channelList.key] ? `${channelList.children.length * 2.2}rem` : 0 }"
+          :style="{ 'max-height': !listExpendStatus[channelList.route] ? `${channelList.children.length * 2.2}rem` : 0 }"
         )
           li(
             class="navbar-item channel-item is-size-7 pl-4"
-            :class="{ 'is-active': currentChannelName === channel.name }"
+            :class="{ 'is-active': currentChannelTitle === channel.title }"
             v-for="channel in channelList.children"
-            :key="channel.name"
+            :key="channel.title"
             @click="switchChannel(channel)"
           )
-            | {{ channel.name }}
+            | {{ channel.title }}
             span(
               class="tag is-danger is-normal is-rounded is-light"
               style="margin-left: 5px"
@@ -91,14 +91,10 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { CHANNEL_ROUTES } from '@/utils/constants';
 import { hasLogin, removeToken, setToken } from '@/utils/auth';
-import { Draft } from '@/types';
+import { Draft, LoadingStatus } from '@/types';
 import { useExpendMenu } from '@/utils';
 import LoginModal from '@/components/login-modal/login-modal.vue';
 import Editor from '@/components/editor/editor.vue';
-
-interface LoadingStatus {
-  replySubmit: boolean;
-}
 
 export default defineComponent({
   name: 'main-navbar',

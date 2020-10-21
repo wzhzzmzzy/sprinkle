@@ -16,11 +16,7 @@ div(class="modal" :class="{ 'is-active': value }")
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-interface ButtonProp {
-  text: string;
-  onClick: (e: Event) => never;
-}
+import { ModalButtonProp } from '@/types';
 
 export default defineComponent({
   name: 'basic-modal',
@@ -34,11 +30,11 @@ export default defineComponent({
       default: false
     },
     leftBtn: {
-      type: Object as () => ButtonProp,
+      type: Object as () => ModalButtonProp,
       required: false
     },
     rightBtn: {
-      type: Object as () => ButtonProp,
+      type: Object as () => ModalButtonProp,
       required: false
     }
   }
