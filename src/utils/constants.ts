@@ -1,5 +1,8 @@
 import { ChannelRoute } from '@/types';
 
+export const COOKIES_KEY = 'ralph-nmb-cookies';
+export const COOKIE_KEY = 'ralph-nmb-cookie';
+
 export const CHANNEL_ROUTES: ChannelRoute[] = [
   {
     title: '常用',

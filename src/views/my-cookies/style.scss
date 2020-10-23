@@ -1,5 +1,34 @@
 @import "~bulma/bulma";
 
+.cookie-panel {
+  max-width: 300px;
+
+  .panel-heading {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .add-cookie-btn {
+    transition: transform 200ms linear;
+  }
+
+  .add-cookie-btn, .add-cookie-btn:hover {
+    background-color: transparent;
+  }
+
+  .add-cookie-btn.active {
+    background-color: transparent;
+    transform: rotate(45deg);
+  }
+
+  .panel-fade-enter-active, .panel-fade-leave-active {
+    transition: opacity .5s;
+  }
+  .panel-fade-enter, .panel-fade-leave-to {
+    opacity: 0;
+  }
+}
+
 .cookie-item {
   display: flex;
   justify-content: left;

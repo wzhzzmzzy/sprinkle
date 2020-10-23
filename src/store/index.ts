@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { userState, userMutations } from '@/store/user';
+import { userState, userMutations, userActions } from '@/store/user';
 import { globalState, globalMutations } from '@/store/global';
 
 export default createStore({
@@ -7,7 +7,8 @@ export default createStore({
     user: {
       namespaced: true,
       state: userState,
-      mutations: userMutations
+      mutations: userMutations,
+      actions: userActions
     },
     global: {
       state: globalState,

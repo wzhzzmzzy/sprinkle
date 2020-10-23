@@ -7,3 +7,7 @@ export interface UserState {
   cookies: string[];
   currentCookie: string;
 }
+
+export interface RootState {
+  isMobile?: boolean;
+}

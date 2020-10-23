@@ -139,7 +139,7 @@ export default defineComponent({
     const imageName = computed(() => {
       return draft.image ? draft.image.name : '选择图片';
     });
-    const handleUpload = (e: Event) => {
+    const handleUpload = () => {
       handleChangeDraft('image', uploadEl.value?.files?.[0]);
     };
     const deleteImage = () => {

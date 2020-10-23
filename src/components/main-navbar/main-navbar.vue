@@ -135,10 +135,9 @@ export default defineComponent({
         loading.replySubmit = false;
       }, 1000);
     };
-    const to = (name: string, query: any = {}) => {
+    const to = (name: string) => {
       return router.push({
-        name,
-        query
+        name
       });
     };
     return {
