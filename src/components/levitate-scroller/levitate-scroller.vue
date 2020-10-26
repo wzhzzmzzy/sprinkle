@@ -36,26 +36,50 @@ export default defineComponent({
     clickTrackEventType: {
       type: String,
       default: 'move'
+    },
+    trackColor: {
+      type: Array,
+      default: null
+    },
+    barColor: {
+      type: Array,
+      default: null
+    },
+    barWidth: {
+      type: Number,
+      default: 12
+    },
+    fixedWidth: {
+      type: Number,
+      default: 0
+    },
+    fixedHeight: {
+      type: Number,
+      default: 0
     }
   },
   setup (props) {
+    type RefHTMLElement = HTMLElement | null;
     // 获取元素的定义
-    const mainContainer = ref<HTMLElement|null>(null);
-    const scrollbarContainer = ref<HTMLElement|null>(null);
-    const scrollbarItem = ref<HTMLElement|null>(null);
-    const contentContainer = ref<HTMLElement|null>(null);
-    const contentItem = ref<HTMLElement|null>(null);
-    const scrollInterval = ref<number|null>(null);
+    const mainContainer = ref<RefHTMLElement>(null);
+    const scrollbarContainer = ref<RefHTMLElement>(null);
+    const scrollbarItem = ref<RefHTMLElement>(null);
+    const contentContainer = ref<RefHTMLElement>(null);
+    const contentItem = ref<RefHTMLElement>(null);
+    // 点击持续滚动的计时器
+    const scrollInterval = ref<number>(0);
     // 点击状态的定义
     const isHover = ref<boolean>(false);
     const isHold = ref<boolean>(false);
     const isShow = ref<boolean>(false);
     // 记录鼠标点击的相对坐标以实现拖曳
     const clickOffset = ref<number>(0);
+
     // 滚动配置相关
     interface MoveStep {
       readonly [propName: string]: number;
     }
+
     const moveStepOptions: MoveStep = { up: -1, down: 1 };
 
     const setHover = (target: boolean) => {
@@ -140,6 +164,27 @@ export default defineComponent({
       document.body.addEventListener('mouseup', removeBodyListener);
     };
 
+    // 设置颜色属性
+    const setColor = (colorArray: Array<number>, type: string) => {
+      const colorStr = 'rgba(' + (colorArray[0] || 0) + ', ' + (colorArray[1] || 0) + ',' + (colorArray[2] || 0) + ',' + (colorArray[3] || 0.5) + ')';
+      type === 'track' && scrollbarContainer.value && (scrollbarContainer.value.style.backgroundColor = colorStr);
+      type === 'bar' && scrollbarItem.value && (scrollbarItem.value.style.backgroundColor = colorStr);
+    };
+    // 设置滚动条宽度
+    const setWidth = () => {
+      if (scrollbarContainer.value && scrollbarItem.value) {
+        scrollbarContainer.value.style.width = props.barWidth + 'px';
+        scrollbarContainer.value.style.borderRadius = props.barWidth / 2 + 'px';
+        scrollbarItem.value.style.width = props.barWidth + 'px';
+        scrollbarItem.value.style.borderRadius = props.barWidth / 2 + 'px';
+      }
+    };
+    // 设置容器尺寸
+    const setContainerSize = () => {
+      props.fixedWidth && mainContainer.value && (mainContainer.value.style.width = props.fixedWidth + 'px');
+      props.fixedHeight && mainContainer.value && (mainContainer.value.style.height = props.fixedHeight + 'px');
+    };
+
     const option = {
       childList: true, // 子节点的变动（新增、删除或者更改）
       attributes: true, // 属性的变动
@@ -153,7 +198,11 @@ export default defineComponent({
     onMounted(() => {
       // eslint-disable-next-line no-unused-expressions
       contentContainer.value?.addEventListener('scroll', scrollScrollbar);
+      setWidth();
+      setContainerSize();
       initScrollbar();
+      props.trackColor && setColor(props.trackColor as Array<number>, 'track');
+      props.barColor && setColor(props.barColor as Array<number>, 'bar');
       if (contentItem.value) {
         contentResize.observe(contentItem.value, option);
       }
@@ -206,6 +255,7 @@ export default defineComponent({
   right: 0;
   border: none;
   transition: opacity 200ms;
+
   &:focus {
     outline: none;
   }
@@ -216,15 +266,18 @@ export default defineComponent({
   border: none;
   width: 100%;
   height: 100px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0);
   position: absolute;
   padding: 0;
   border-radius: 6px;
+  opacity: 0.3;
+
   &:focus {
     outline: none;
   }
+
   &:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0.6;
   }
 }
 
@@ -232,14 +285,18 @@ export default defineComponent({
   height: 100%;
   overflow: scroll;
   -ms-overflow-style: none;
+
   &::-webkit-scrollbar {
     display: none; /* Chrome Safari */
   }
 }
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
   opacity: 0;
 }
 
