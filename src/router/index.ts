@@ -1,5 +1,5 @@
 import flatten from 'lodash/flatten';
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { CHANNEL_ROUTES } from '@/utils/constants';
 import { ChannelRoute } from '@/types';
 
@@ -52,11 +52,26 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   }
+  // {
+  //   path: '/:pathMatch(.*)*',
+  //   name: 'not-found',
+  //   component: () => import('@/error/404.vue')
+  // }
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory('/'),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const { _env_ } = from.query;
+  if (_env_ && _env_ !== to.query._env_) {
+    to.query._env_ = _env_;
+    next(to);
+  } else {
+    next();
+  }
 });
 
 export default router;
