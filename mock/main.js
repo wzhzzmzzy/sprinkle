@@ -10,7 +10,7 @@ const log = (content, head) =>
   console.log(chalk.magenta.underline.bold(`[Mock${head ? ' ' + head : ''}]`), content)
 
 const registerRoutes = router => {
-  const { mocks } = require('./index')
+  const mocks = require('./index')
   mocks.forEach(mockApi => {
     const { url, method, response } = mockApi
     router[method](
@@ -49,7 +49,7 @@ function main () {
   app.use(router.routes()).use(router.allowedMethods())
 
   app.listen(port)
-  log(`running at port ${port}`, 'Server')
+  log(`running at port ${port}. You can fetch mock api with ${chalk.bold.blueBright('_env_=mock')}.`, 'Server')
 
   const fsWatcher = chokidar.watch(mockDir, {
     ignored: /main/,
