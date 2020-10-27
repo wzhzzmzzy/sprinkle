@@ -1,5 +1,7 @@
 # Ralph NMB
 
+[![Build Status](https://dev.azure.com/wzhzzmzzy/Ralph-NMB/_apis/build/status/wzhzzmzzy.ralph-nmb?branchName=main)](https://dev.azure.com/wzhzzmzzy/Ralph-NMB/_build/latest?definitionId=3&branchName=main)
+
 ## Development
 
 ```shell script
