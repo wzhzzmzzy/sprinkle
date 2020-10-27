@@ -1,14 +1,13 @@
 <template lang="pug">
-router-view
+  p 404
 </template>
 
 <script>
-
 export default {
-  name: 'Segment'
+  name: '404'
 };
 </script>
 
-<style lang="scss" src="./style.scss">
+<style scoped>
 
 </style>

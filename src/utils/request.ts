@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const isMockEnv = /_env_=mock/.test(window.location.href);
+
 export const api = axios.create({
   timeout: 5000,
-  baseURL: process.env.VUE_APP_BASE_API
+  baseURL: process.env[isMockEnv ? 'VUE_APP_MOCK_API' : 'VUE_APP_BASE_API']
 });
 
 api.interceptors.request.use(

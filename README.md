@@ -1,29 +1,19 @@
-# ralph-nmb
+# Ralph NMB
 
-## Project setup
-```
-yarn install
-```
+## Development
 
-### Compiles and hot-reloads for development
-```
+```shell script
+# Install dependencies
+yarn
+# Run dev server
 yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+### Mock 数据
 
-### Run your unit tests
-```
-yarn test:unit
-```
+1. 运行 Mock server (Koa 2)
+    ```shell script
+    yarn serve:mock
+    ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+2. 在 Mock 模式打开页面 `http://localhost:9875?_env_=mock`
