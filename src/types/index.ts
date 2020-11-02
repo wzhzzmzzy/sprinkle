@@ -26,3 +26,4 @@ export interface ModalButtonProp {
 }
 
 export * from './store';
+export * from './model';

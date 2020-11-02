@@ -106,13 +106,8 @@ export function useTimestampInterval (inRenderFunc?: ((time: Date, now: Date) =>
   });
 
   // 用于添加Date对象并返回计算值的引用
-  return (i: string | Date) => {
-    let tempTimestamp: Date;
-    if (i instanceof Date) {
-      tempTimestamp = i;
-    } else {
-      tempTimestamp = new Date(i);
-    }
+  return (i: string|number|Date) => {
+    const tempTimestamp: Date = new Date(i);
     tempTimestamp.setSeconds(0);
     tempTimestamp.setMilliseconds(0);
     const timestampKey = tempTimestamp.getTime() + '';
