@@ -1,7 +1,7 @@
-import { reactive, computed } from 'vue';
+import { computed, ComputedRef, reactive, Ref, ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { pull } from 'lodash/fp';
+import { pull, findLast, lt, pipe, head } from 'lodash/fp';
 import { ChannelRoute, ExpendStatus } from '@/types';
 import { COOKIE_KEY } from './constants';
 
@@ -59,5 +59,69 @@ export function useCookie () {
     removeCookie,
     cookies,
     currentCookie
+  };
+}
+
+export function useTimestampInterval (inRenderFunc?: ((time: Date, now: Date) => string) | null) {
+  // 原始数据interface
+  interface TimestampClass {
+    [timestampKey: string]: Date;
+  }
+  // 渲染计算对象interface
+  interface TimestampRenderClass {
+    [timestampRenderKey: string]: ComputedRef<string>;
+  }
+
+  const timestampObj: TimestampClass = {}; // 用于保存原始Date数据
+  const timestampRenderObj: TimestampRenderClass = {}; // 用于保存对应于原始数据的计算属性
+  const nowTime: Ref<Date> = ref(new Date()); // 用于保存当前时间，并作为计算属性的依赖来触发更新
+
+  // 设定与清除计时器
+  watchEffect(onInvalidate => {
+    const refreshNowTimeInterval = setInterval(() => {
+      nowTime.value = new Date();
+    }, 60000); // 更新当前时间的计时器
+    onInvalidate(() => {
+      clearInterval(refreshNowTimeInterval);
+    });
+  });
+
+  // 用于格式化输出
+  const fullNumber = (num: number): string => {
+    return (num < 10 ? '0' : '') + num;
+  };
+
+  const renderFunc = inRenderFunc || ((time: Date, now: Date) => {
+    const diff = now.getTime() - time.getTime();
+    const timeSliceEnum = [
+      [Infinity, `${time.getFullYear()}/${(time.getMonth() + 1)}/${time.getDate()}
+      ${fullNumber(time.getHours())}:${fullNumber(time.getMinutes())}`],
+      [172800000, '昨天'],
+      [86400000, `${Math.floor(diff / 3600000)} 小时前`],
+      [3600000, `${Math.floor(diff / 60000)} 分钟前`],
+      [60000, '刚刚']
+    ];
+    const timeSlice = findLast(pipe([head, lt(diff)]))(timeSliceEnum);
+    return timeSlice[1];
+  });
+
+  // 用于添加Date对象并返回计算值的引用
+  return (i: string | Date) => {
+    let tempTimestamp: Date;
+    if (i instanceof Date) {
+      tempTimestamp = i;
+    } else {
+      tempTimestamp = new Date(i);
+    }
+    tempTimestamp.setSeconds(0);
+    tempTimestamp.setMilliseconds(0);
+    const timestampKey = tempTimestamp.getTime() + '';
+    if (!(timestampKey in timestampObj)) {
+      timestampObj[timestampKey] = tempTimestamp;
+      timestampRenderObj[timestampKey] = computed(() => {
+        return renderFunc(timestampObj[timestampKey], nowTime.value);
+      });
+    }
+    return timestampRenderObj[timestampKey];
   };
 }
