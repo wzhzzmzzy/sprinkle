@@ -1,8 +1,8 @@
 import { computed, ComputedRef, reactive, Ref, ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { pull, findLast, lt, pipe, head } from 'lodash/fp';
-import { ChannelRoute, ExpendStatus } from '@/types';
+import { head, flow, pull, findLast, lt, curryRight } from 'lodash';
+import { ChannelRoute, ExpendStatus } from '/@/types';
 import { COOKIE_KEY } from './constants';
 
 export function useExpendMenu () {
@@ -11,7 +11,7 @@ export function useExpendMenu () {
   const currentChannelTitle = computed(() => {
     return route.name;
   });
-  const switchChannel = (channel: ChannelRoute) => router.push({ name: channel.title });
+  const switchChannel = (channel: ChannelRoute) => router.push({ name: channel.title, });
   const listExpendStatus = reactive<ExpendStatus>({
     favourite: false,
     general: true,
@@ -19,7 +19,7 @@ export function useExpendMenu () {
     game: true,
     'acg-mix': true,
     real: true,
-    admin: true
+    admin: true,
   });
   const toggleSideList = (name: string) => {
     listExpendStatus[name] = !listExpendStatus[name];
@@ -28,7 +28,7 @@ export function useExpendMenu () {
     currentChannelTitle,
     listExpendStatus,
     toggleSideList,
-    switchChannel
+    switchChannel,
   };
 }
 
@@ -42,7 +42,7 @@ export function useCookie () {
     }
   };
   const removeCookie = (cookie: string) => {
-    const newCookies = pull(cookie)(cookies.value);
+    const newCookies = pull(cookies.value, cookie);
     if (cookies.value.includes(cookie)) {
       store.dispatch('user/setCookies', newCookies).catch(e => console.warn(e));
       if (currentCookie.value === cookie) {
@@ -58,7 +58,7 @@ export function useCookie () {
     switchCookie,
     removeCookie,
     cookies,
-    currentCookie
+    currentCookie,
   };
 }
 
@@ -101,7 +101,7 @@ export function useTimestampInterval (inRenderFunc?: ((time: Date, now: Date) =>
       [3600000, `${Math.floor(diff / 60000)} 分钟前`],
       [60000, '刚刚']
     ];
-    const timeSlice = findLast(pipe([head, lt(diff)]))(timeSliceEnum);
+    const timeSlice = findLast(timeSliceEnum, flow([head, curryRight(lt)(diff)]));
     return timeSlice[1];
   });
 

@@ -16,7 +16,7 @@ div(class="modal" :class="{ 'is-active': value }")
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ModalButtonProp } from '@/types';
+import { ModalButtonProp } from '/@/types';
 
 export default defineComponent({
   name: 'basic-modal',

@@ -27,8 +27,8 @@ div(class="sidebar")
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { CHANNEL_ROUTES } from '@/utils/constants';
-import { useExpendMenu } from '@/utils';
+import { CHANNEL_ROUTES } from '/@/utils/constants';
+import { useExpendMenu } from '/@/utils';
 
 export default defineComponent({
   name: 'main-sidebar',

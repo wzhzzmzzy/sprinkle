@@ -89,12 +89,12 @@ editor(:loading="loading.replySubmit" @submit="handleSubmitReply")
 import { ref, defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { CHANNEL_ROUTES } from '@/utils/constants';
-import { hasLogin, removeToken, setToken } from '@/utils/auth';
-import { Draft, LoadingStatus } from '@/types';
-import { useExpendMenu } from '@/utils';
-import LoginModal from '@/components/login-modal/login-modal.vue';
-import Editor from '@/components/editor/editor.vue';
+import { CHANNEL_ROUTES } from '/@/utils/constants';
+import { hasLogin, removeToken, setToken } from '/@/utils/auth';
+import { Draft, LoadingStatus } from '/@/types';
+import { useExpendMenu } from '/@/utils';
+import LoginModal from '/@/components/login-modal/login-modal.vue';
+import Editor from '/@/components/editor/editor.vue';
 
 export default defineComponent({
   name: 'main-navbar',

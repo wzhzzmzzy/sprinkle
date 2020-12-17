@@ -84,10 +84,9 @@ basic-modal(
 <script lang="ts">
 import { ref, reactive, defineComponent, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
-import { random, pick } from 'lodash/fp';
-import { debounce } from 'lodash';
-import { Draft } from '@/types';
-import BasicModal from '@/components/basic-modal/basic-modal.vue';
+import { random, debounce, pick, curryRight } from 'lodash';
+import { Draft } from '/@/types';
+import BasicModal from '/@/components/basic-modal/basic-modal.vue';
 import { EMOTION_TEXTS, LOCAL_DRAFT_KEY } from './constants';
 
 export default defineComponent({
@@ -115,7 +114,7 @@ export default defineComponent({
       readBackup: false
     });
     const uploadEl = ref<HTMLInputElement|null>(null);
-    const pickDraft = pick(['title', 'content']);
+    const pickDraft = curryRight(pick)(['title', 'content']);
     const RANDOM_EMOTION = EMOTION_TEXTS[random(0, EMOTION_TEXTS.length)];
     onMounted(() => {
       const draftString: string|null = window.localStorage.getItem(LOCAL_DRAFT_KEY);

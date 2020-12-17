@@ -13,12 +13,12 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
+      "node",
       "mocha",
       "chai"
     ],
     "paths": {
-      "@/*": [
+      "/@/*": [
         "src/*"
       ]
     },
@@ -37,6 +37,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

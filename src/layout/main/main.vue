@@ -7,8 +7,8 @@ main(id="main-body")
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MainSidebar from '@/components/main-sidebar/main-sidebar.vue';
-import MainNavbar from '@/components/main-navbar/main-navbar.vue';
+import MainSidebar from './components/sidebar/sidebar.vue';
+import MainNavbar from './components/navbar/navbar.vue';
 
 export default defineComponent({
   name: 'main-layout',

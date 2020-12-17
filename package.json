@@ -1,75 +1,49 @@
 {
   "name": "ralph-nmb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
+  "description": "Ralph NMB",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
-    "serve:mock": "node ./mock/main.js"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.0",
     "bulma": "^0.9.1",
-    "core-js": "^3.6.5",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
-    "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.0.4",
+    "vue-router": "^4.0.1",
+    "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@koa/router": "^9.4.0",
-    "@types/chai": "^4.2.11",
+    "@koa/router": "^10.0.0",
     "@types/js-cookie": "^2.2.6",
-    "@types/lodash": "^4.14.162",
-    "@types/mocha": "^5.2.4",
-    "@types/mockjs": "^1.0.3",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-unit-mocha": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@types/lodash": "^4.14.165",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "@vue/compiler-sfc": "^3.0.4",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^5.0.2",
-    "@vue/test-utils": "^2.0.0-0",
-    "body-parser": "^1.19.0",
-    "chai": "^4.1.2",
-    "chalk": "^4.1.0",
-    "chokidar": "^3.4.3",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint": "^7.15.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^7.0.0-0",
-    "koa": "^2.13.0",
-    "koa-bodyparser": "^4.3.0",
-    "lint-staged": "^9.5.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-vue": "^7.3.0",
+    "husky": "^4.3.6",
     "mockjs": "^1.1.0",
     "pug": "^3.0.0",
-    "pug-plain-loader": "^1.0.0",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3"
+    "sass": "^1.30.0",
+    "typescript": "^4.1.3",
+    "vite": "^1.0.0-rc.13"
   },
-  "gitHooks": {
-    "commit-msg": "commitlint -E GIT_PARAMS",
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

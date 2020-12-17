@@ -1,12 +1,12 @@
 import { MutationTree } from 'vuex';
-import { GlobalState } from '@/types';
+import { GlobalState } from '/@/types';
 
 export const globalState: () => GlobalState = () => ({
-  editorVisible: false
+  editorVisible: false,
 });
 
 export const globalMutations: MutationTree<GlobalState> = {
   toggleEditorModal (state, payload: boolean) {
     state.editorVisible = payload;
-  }
+  },
 };

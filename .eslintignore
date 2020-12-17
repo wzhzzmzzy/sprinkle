@@ -1,1 +1,3 @@
-mock
+public
+dist
+mock/**/*.js

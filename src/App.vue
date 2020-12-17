@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MainLayout from '@/layout/main/main.vue';
-import { initStoreToken } from '@/utils/auth';
+import MainLayout from './layout/main/main.vue';
+import { initStoreToken } from './utils/auth';
 
 export default defineComponent({
   name: 'App',
