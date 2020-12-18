@@ -25,5 +25,11 @@ export interface ModalButtonProp {
   onClick: (e: Event) => never;
 }
 
+export interface SingleWord {
+  passed: string;
+  wrong: string;
+  remain: string;
+}
+
 export * from './store';
 export * from './model';

@@ -51,6 +51,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/my-subscribe/my-subscribe.vue')
       }
     ]
+  },
+  {
+    path: '/game',
+    name: 'Game',
+    component: () => import('@/views/game/index.vue'),
+    children: [
+      {
+        name: 'type-racer',
+        path: 'racer',
+        component: () => import('@/views/game/type-racer/racer.vue')
+      }
+    ]
   }
   // {
   //   path: '/:pathMatch(.*)*',

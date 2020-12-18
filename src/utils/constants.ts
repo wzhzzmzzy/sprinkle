@@ -107,3 +107,8 @@ export const CHANNEL_ROUTES: ChannelRoute[] = [
     children: [{ title: '动画' }, { title: '漫画' }, { title: '特摄', tip: 'New!' }, { title: '虚拟偶像 (LL)' }, { title: '美漫 (小马)' }, { title: '国漫' }, { title: '轻小说' }, { title: '东方 Project' }, { title: '舰娘' }, { title: 'VOCALOID' }, { title: '文学 (推书)' }]
   }
 ];
+
+export enum TYPE_RACER_STATUS {
+  RUNNING = 'RUNNING',
+  FINISH = 'FINISH'
+}
