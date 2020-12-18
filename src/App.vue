@@ -1,7 +1,6 @@
-<template>
-  <main-layout>
-    <router-view />
-  </main-layout>
+<template lang="pug">
+main-layout
+  router-view
 </template>
 
 <script lang="ts">
@@ -12,11 +11,11 @@ import { initStoreToken } from './utils/auth';
 export default defineComponent({
   name: 'App',
   components: {
-    MainLayout
+    MainLayout,
   },
   setup () {
     initStoreToken();
-  }
+  },
 });
 
 </script>

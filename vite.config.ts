@@ -11,6 +11,9 @@ export default {
   alias: {
     '/@/': path.resolve(__dirname, './src'),
   },
+  optimizeDeps: {
+    include: ['lodash/fp'],
+  },
   sourcemap: true,
   port: 9875,
   open: false,

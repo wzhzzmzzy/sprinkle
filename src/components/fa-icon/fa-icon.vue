@@ -13,13 +13,13 @@ export default defineComponent({
     className: Array,
     left: {
       type: Boolean,
-      default: false
+      default: false,
     },
     panel: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 });
 </script>
 

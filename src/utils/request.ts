@@ -4,7 +4,7 @@ const isMockEnv = /_env_=mock/.test(window.location.href);
 
 export const api = axios.create({
   timeout: 5000,
-  baseURL: import.meta.env[isMockEnv ? 'VITE_NMB_MOCK_API' : 'VITE_NMB_BASE_API'],
+  baseURL: (import.meta as any).env[isMockEnv ? 'VITE_NMB_MOCK_API' : 'VITE_NMB_BASE_API'],
 });
 
 api.interceptors.request.use(

@@ -84,26 +84,27 @@ basic-modal(
 <script lang="ts">
 import { ref, reactive, defineComponent, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
-import { random, debounce, pick, curryRight } from 'lodash';
+import { pick } from 'lodash/fp';
+import { random, debounce } from 'lodash';
 import { Draft } from '/@/types';
 import BasicModal from '/@/components/basic-modal/basic-modal.vue';
 import { EMOTION_TEXTS, LOCAL_DRAFT_KEY } from './constants';
 
 export default defineComponent({
   name: 'editor',
-  components: { BasicModal },
+  components: { BasicModal, },
   props: {
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup (props, context) {
     const store = useStore();
     const draft = reactive<Draft>({
       title: '',
       content: '',
-      image: undefined
+      image: undefined,
     });
     const backup = reactive<any>({
       hasBackup: false,
@@ -111,10 +112,10 @@ export default defineComponent({
       hasOldDraft: false,
       oldDraft: null,
       oldBackupTime: undefined,
-      readBackup: false
+      readBackup: false,
     });
     const uploadEl = ref<HTMLInputElement|null>(null);
-    const pickDraft = curryRight(pick)(['title', 'content']);
+    const pickDraft = pick(['title', 'content']);
     const RANDOM_EMOTION = EMOTION_TEXTS[random(0, EMOTION_TEXTS.length)];
     onMounted(() => {
       const draftString: string|null = window.localStorage.getItem(LOCAL_DRAFT_KEY);
@@ -153,10 +154,10 @@ export default defineComponent({
         LOCAL_DRAFT_KEY,
         JSON.stringify({
           ...pickDraft(draft),
-          time: backup.newBackupTime.valueOf()
+          time: backup.newBackupTime.valueOf(),
         })
       );
-    }, 1000, { leading: true, trailing: true });
+    }, 1000, { leading: true, trailing: true, });
     const handleSelectEmotion = (e: Event) => {
       handleInput('content', draft.content + (e.target as HTMLSelectElement).value);
     };
@@ -182,9 +183,9 @@ export default defineComponent({
       handleChangeDraft,
       handleInput,
       handleUpload,
-      deleteImage
+      deleteImage,
     };
-  }
+  },
 });
 </script>
 

@@ -16,7 +16,7 @@ export const removeToken: () => void = () => {
   Cookies.remove(TOKEN_KEY);
 };
 
-export const initStoreToken: (newToken: string) => void = (newToken = '') => {
+export const initStoreToken: (newToken?: string) => void = (newToken = '') => {
   onMounted(() => {
     const store = useStore();
     if (!newToken) {

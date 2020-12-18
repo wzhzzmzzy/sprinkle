@@ -1,7 +1,8 @@
 import { computed, ComputedRef, reactive, Ref, ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { head, flow, pull, findLast, lt, curryRight } from 'lodash';
+import { lt } from 'lodash/fp';
+import { head, flow, pull, findLast } from 'lodash';
 import { ChannelRoute, ExpendStatus } from '/@/types';
 import { COOKIE_KEY } from './constants';
 
@@ -69,7 +70,7 @@ export function useTimestampInterval (inRenderFunc?: ((time: Date, now: Date) =>
   }
   // 渲染计算对象interface
   interface TimestampRenderClass {
-    [timestampRenderKey: string]: ComputedRef<string>;
+    [timestampRenderKey: string]: ComputedRef<string|number>;
   }
 
   const timestampObj: TimestampClass = {}; // 用于保存原始Date数据
@@ -101,8 +102,8 @@ export function useTimestampInterval (inRenderFunc?: ((time: Date, now: Date) =>
       [3600000, `${Math.floor(diff / 60000)} 分钟前`],
       [60000, '刚刚']
     ];
-    const timeSlice = findLast(timeSliceEnum, flow([head, curryRight(lt)(diff)]));
-    return timeSlice[1];
+    const timeSlice = findLast(timeSliceEnum, flow([head, lt(diff)])) ?? [0, ''];
+    return (timeSlice as (string | number)[])[1];
   });
 
   // 用于添加Date对象并返回计算值的引用
