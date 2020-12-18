@@ -11,7 +11,7 @@ div.test-container
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import levitateScroller from '@/components/levitate-scroller/levitate-scroller.vue';
+import levitateScroller from '/@/components/levitate-scroller/levitate-scroller.vue';
 
 export default defineComponent({
   name: 'channel',

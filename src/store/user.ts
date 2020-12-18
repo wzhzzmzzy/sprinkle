@@ -1,6 +1,6 @@
 import { MutationTree, ActionTree } from 'vuex';
-import { UserState, RootState } from '@/types';
-import { COOKIE_KEY, COOKIES_KEY } from '@/utils/constants';
+import { UserState, RootState } from '/@/types';
+import { COOKIE_KEY, COOKIES_KEY } from '/@/utils/constants';
 
 const TEST_COOKIES = [
   'test-cookie1',
@@ -13,7 +13,7 @@ const TEST_COOKIES = [
 export const userState: () => UserState = () => ({
   token: '',
   cookies: TEST_COOKIES,
-  currentCookie: 'test-cookie1'
+  currentCookie: 'test-cookie1',
 });
 
 export const userMutations: MutationTree<UserState> = {
@@ -25,18 +25,18 @@ export const userMutations: MutationTree<UserState> = {
   },
   setCookies (state, payload: string[]) {
     state.cookies = payload;
-  }
+  },
 };
 
 export const userActions: ActionTree<UserState, RootState> = {
-  switchCookie ({ commit }, payload: string) {
+  switchCookie ({ commit, }, payload: string) {
     console.log('[switchCookie]', payload);
     commit('switchCookie', payload);
     window.localStorage.setItem(COOKIE_KEY, payload);
   },
-  setCookies ({ commit }, payload: string[]) {
+  setCookies ({ commit, }, payload: string[]) {
     console.log('[setCookies]', payload);
     commit('setCookies', payload);
     window.localStorage.setItem(COOKIES_KEY, JSON.stringify(payload));
-  }
+  },
 };

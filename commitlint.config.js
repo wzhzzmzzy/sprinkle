@@ -21,5 +21,5 @@ module.exports = {
     'app', // 全局
     'layout', // 布局
     'router' // 路由
-  ]]
+  ]],
 };

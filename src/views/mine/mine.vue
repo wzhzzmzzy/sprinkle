@@ -17,8 +17,8 @@ div(class="container")
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { ChannelRoute } from '@/types';
-import { api } from '@/utils/request';
+import { ChannelRoute } from '/@/types';
+import { api } from '/@/utils/request';
 import { TABS } from './constants';
 
 export default defineComponent({

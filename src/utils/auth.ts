@@ -4,28 +4,27 @@ import { onMounted, computed } from 'vue';
 
 const TOKEN_KEY = 'nmb-token';
 
-export const getToken = () => {
+export const getToken: () => string | undefined = () => {
   return Cookies.get(TOKEN_KEY);
 };
 
-export const setToken = (token: string) => {
+export const setToken: (token: string) => void = token => {
   Cookies.set(TOKEN_KEY, token);
 };
 
-export const removeToken = () => {
+export const removeToken: () => void = () => {
   Cookies.remove(TOKEN_KEY);
 };
 
-export const initStoreToken = (newToken = '') => {
+export const initStoreToken: (newToken?: string) => void = (newToken = '') => {
   onMounted(() => {
     const store = useStore();
     if (!newToken) {
       const userToken = getToken();
       if (userToken) {
         store.commit('user/setToken', userToken);
-        return userToken;
       }
-      return '';
+      return;
     }
     setToken(newToken);
     store.commit('user/setToken', newToken);

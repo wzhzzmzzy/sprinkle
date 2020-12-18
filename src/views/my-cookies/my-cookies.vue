@@ -40,15 +40,13 @@ div(class="columns is-mobile")
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import FaIcon from '@/components/fa-icon/fa-icon.vue';
-import { useCookie } from '@/utils';
-import { ExpendStatus } from '@/types';
+import FaIcon from '/@/components/fa-icon/fa-icon.vue';
+import { useCookie } from '/@/utils';
+import { ExpendStatus } from '/@/types';
 
 export default defineComponent({
   name: 'my-cookies',
-  components: {
-    FaIcon
-  },
+  components: { FaIcon },
   setup () {
     const panelStatus = reactive<ExpendStatus>({
       addCookie: false
@@ -57,9 +55,9 @@ export default defineComponent({
       panelStatus.addCookie = !panelStatus.addCookie;
     };
     return {
-      ...useCookie(),
       panelStatus,
-      toggleAddCookie
+      toggleAddCookie,
+      ...useCookie(),
     };
   }
 });
