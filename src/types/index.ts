@@ -33,3 +33,4 @@ export interface SingleWord {
 
 export * from './store';
 export * from './model';
+export * from './calendar';

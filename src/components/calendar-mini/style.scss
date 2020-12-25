@@ -1,0 +1,190 @@
+@import "./style/variable.scss";
+
+@mixin flex-center($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.grid {
+  display: grid;
+}
+
+.button-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.cal-mini {
+  position: relative;
+  display: inline-flex;
+  width: max-content;
+  height: max-content;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  'Helvetica', 'Arial', sans-serif;
+  border: 1px solid $gray-400;
+  border-radius: $rounded-lg;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+
+  &-panel {
+    position: relative;
+    flex-shrink: 1;
+    display: grid;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    grid-template-columns: repeat(1, minmax(256px, 1fr));
+    gap: 0;
+  }
+
+  &-actions {
+    @include flex-center(flex-end);
+    box-sizing: border-box;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding: 13px 18px 8px;
+    z-index: 10;
+  }
+
+  &-header-btn {
+    background: transparent;
+    outline: none;
+    border: none;
+    color: $gray-600;
+    cursor: pointer;
+  }
+
+  .back-to-now {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: $gray-600;
+  }
+
+  &-body {
+    @include flex-center(center, stretch);
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: flex-start;
+    flex-direction: column;
+  }
+
+  &-header {
+    @include flex-center(flex-start);
+    box-sizing: border-box;
+    width: 100%;
+    color: $gray-900;
+    user-select: none;
+    padding: 10px 10px 0 15px;
+    z-index: 1;
+  }
+
+  &-month {
+    box-sizing: border-box;
+    width: 100%;
+    flex-grow: 1;
+    padding: 5px 6px 7px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+  }
+
+  &-weekday {
+    color: $gray-500;
+    font-weight: $font-bold;
+    padding: 5px 0;
+    flex: 1;
+    font-size: $text-sm;
+    user-select: none;
+    text-align: center;
+  }
+
+  &-day-cell {
+    height: 100%;
+    font-size: $text-sm;
+    user-select: none;
+    text-align: center;
+    position: relative;
+    min-height: 28px;
+    width: 100%;
+  }
+
+  &-day-layer {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  &-day {
+    position: relative;
+    @include flex-center;
+    width: 28px;
+    height: 28px;
+    margin: 1.6px auto;
+    border-radius: $rounded-full;
+    font-weight: $font-medium;
+    color: $gray-800;
+    z-index: 20;
+  }
+
+  .active {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $gray-200;
+    }
+
+    &.now {
+      background-color: $blue-600;
+      font-weight: $font-bold;
+      color: $white;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    &.selected {
+      background-color: $gray-300;
+      font-weight: $font-bold;
+    }
+  }
+
+  .other-month {
+    color: $gray-400;
+
+    &:hover {
+      background-color: $gray-200;
+    }
+  }
+
+  .slide-left-leave-active,
+  .slide-right-leave-active {
+    position: absolute;
+    width: 100%;
+  }
+
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active {
+    transition: all .15s ease;
+  }
+
+  .slide-left-enter-from,
+  .slide-right-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  .slide-right-enter-from,
+  .slide-left-leave-to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}

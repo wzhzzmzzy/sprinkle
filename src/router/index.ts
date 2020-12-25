@@ -53,14 +53,19 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/game',
+    path: '/apps',
     name: 'Game',
-    component: () => import('@/views/game/index.vue'),
+    component: () => import('@/views/playground/index.vue'),
     children: [
       {
         name: 'type-racer',
         path: 'racer',
-        component: () => import('@/views/game/type-racer/racer.vue')
+        component: () => import('@/views/playground/type-racer/racer.vue')
+      },
+      {
+        name: 'calendar',
+        path: 'calendar',
+        component: () => import('@/views/playground/calendar/index.vue')
       }
     ]
   }
