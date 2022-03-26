@@ -1,0 +1,23 @@
+{
+  "name": "@sprinkle/server",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:test": "ts-node ./src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^3.27.4",
+    "fastify-compress": "^4.0.1",
+    "fastify-plugin": "^3.0.1",
+    "fastify-static": "^4.6.1",
+    "middie": "^6.0.0",
+    "pino-pretty": "^7.6.0"
+  },
+  "devDependencies": {
+    "@sprinkle/svelte-app": "workspace:*"
+  }
+}

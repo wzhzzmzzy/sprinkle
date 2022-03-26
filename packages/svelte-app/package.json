@@ -1,0 +1,21 @@
+{
+  "name": "@sprinkle/svelte-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@roxi/routify": "^2.18.5",
+    "@types/js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.1",
+    "svelte-navigator": "^3.1.5"
+  },
+  "dependencies": {
+    "svelte-routing": "^1.6.0"
+  }
+}
