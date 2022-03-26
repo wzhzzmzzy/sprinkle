@@ -1,5 +1,5 @@
 import Cookie from "js-cookie";
-import {navigate} from "svelte-navigator";
+import {navigate} from "svelte-routing";
 import {toggleUserAuthChecking} from "../store/page-status";
 
 export function updateToken(token) {

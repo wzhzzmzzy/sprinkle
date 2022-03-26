@@ -37,9 +37,8 @@ const viteRenderDev : FastifyPluginAsync = (
           )
         )
 
-        require('svelte/register')({ hydratable: true })
         const { default: serverModule } = await viteServer.ssrLoadModule(
-          require.resolve('@sprinkle/svelte-app/src/entry/server.ts')
+          require.resolve('@sprinkle/svelte-app/src/App.svelte')
         )
         const res = serverModule.render({ url })
         return template
