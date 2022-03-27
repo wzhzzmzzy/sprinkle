@@ -46,8 +46,6 @@ importers:
       svelte-check: ^2.2.7
       svelte-navigator: ^3.1.5
       svelte-preprocess: ^4.9.8
-      vite-plugin-windicss: ^1.8.3
-      windicss: ^3.5.1
     devDependencies:
       '@sveltejs/vite-plugin-svelte': registry.npmmirror.com/@sveltejs/vite-plugin-svelte/1.0.0-next.40_svelte@3.46.4+vite@2.8.6
       '@tsconfig/svelte': registry.npmmirror.com/@tsconfig/svelte/2.0.1
@@ -57,8 +55,6 @@ importers:
       svelte-check: registry.npmmirror.com/svelte-check/2.4.6_svelte@3.46.4
       svelte-navigator: registry.npmmirror.com/svelte-navigator/3.1.5_svelte@3.46.4+typescript@4.6.2
       svelte-preprocess: registry.npmmirror.com/svelte-preprocess/4.10.4_svelte@3.46.4+typescript@4.6.2
-      vite-plugin-windicss: registry.npmmirror.com/vite-plugin-windicss/1.8.3_vite@2.8.6
-      windicss: registry.npmmirror.com/windicss/3.5.1
 
 packages:
 
@@ -196,12 +192,6 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  registry.npmmirror.com/@antfu/utils/0.5.0:
-    resolution: {integrity: sha512-MrAQ/MrPSxbh1bBrmwJjORfJymw4IqSHFBXqvxaga3ZdDM+/zokYF8DjyJpSjY2QmpmgQrajDUBJOWrYeARfzA==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/@antfu/utils/-/utils-0.5.0.tgz}
-    name: '@antfu/utils'
-    version: 0.5.0
-    dev: true
-
   registry.npmmirror.com/@fastify/ajv-compiler/1.1.0:
     resolution: {integrity: sha512-gvCOUNpXsWrIQ3A4aXCLIdblL0tDq42BG/2Xw7oxbil9h11uow10ztS2GuFazNBfjbrsZ5nl+nPl5jDSjj5TSg==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/@fastify/ajv-compiler/-/ajv-compiler-1.1.0.tgz}
     name: '@fastify/ajv-compiler'
@@ -302,34 +292,6 @@ packages:
     version: 1.43.1
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node/17.0.21
-    dev: true
-
-  registry.npmmirror.com/@windicss/config/1.8.3:
-    resolution: {integrity: sha512-1fvfZhRD7WfV/Xh6uIAYKIdbQWrwEgSdkFlHiLPzMDS44KjwNZILDzLAz9Y2W5H2K4MLGgGMnzGS89ECyjc0Ww==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/@windicss/config/-/config-1.8.3.tgz}
-    name: '@windicss/config'
-    version: 1.8.3
-    dependencies:
-      debug: registry.npmmirror.com/debug/4.3.4
-      jiti: registry.npmmirror.com/jiti/1.13.0
-      windicss: registry.npmmirror.com/windicss/3.5.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  registry.npmmirror.com/@windicss/plugin-utils/1.8.3:
-    resolution: {integrity: sha512-emlMeDt73uNV1ZofLTDogcxqL9aZ5uIRYkjeHlrWiaDozFbX6Jc+a6eRo9Ieaar3JUryl6AnecTPHAiFDl4IXg==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/@windicss/plugin-utils/-/plugin-utils-1.8.3.tgz}
-    name: '@windicss/plugin-utils'
-    version: 1.8.3
-    dependencies:
-      '@antfu/utils': registry.npmmirror.com/@antfu/utils/0.5.0
-      '@windicss/config': registry.npmmirror.com/@windicss/config/1.8.3
-      debug: registry.npmmirror.com/debug/4.3.4
-      fast-glob: registry.npmmirror.com/fast-glob/3.2.11
-      magic-string: registry.npmmirror.com/magic-string/0.25.9
-      micromatch: registry.npmmirror.com/micromatch/4.0.5
-      windicss: registry.npmmirror.com/windicss/3.5.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   registry.npmmirror.com/abstract-logging/2.0.1:
@@ -1318,13 +1280,6 @@ packages:
     version: 1.0.0
     dev: false
 
-  registry.npmmirror.com/jiti/1.13.0:
-    resolution: {integrity: sha512-/n9mNxZj/HDSrincJ6RP+L+yXbpnB8FybySBa+IjIaoH9FIxBbrbRT5XUbe8R7zuVM2AQqNMNDDqz0bzx3znOQ==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/jiti/-/jiti-1.13.0.tgz}
-    name: jiti
-    version: 1.13.0
-    hasBin: true
-    dev: true
-
   registry.npmmirror.com/joycon/3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/joycon/-/joycon-3.1.1.tgz}
     name: joycon
@@ -1356,12 +1311,6 @@ packages:
     name: kleur
     version: 4.1.4
     engines: {node: '>=6'}
-    dev: true
-
-  registry.npmmirror.com/kolorist/1.5.1:
-    resolution: {integrity: sha512-lxpCM3HTvquGxKGzHeknB/sUjuVoUElLlfYnXZT73K8geR9jQbroGlSCFBax9/0mpGoD3kzcMLnOlGQPJJNyqQ==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/kolorist/-/kolorist-1.5.1.tgz}
-    name: kolorist
-    version: 1.5.1
     dev: true
 
   registry.npmmirror.com/leven/2.1.0:
@@ -2300,23 +2249,6 @@ packages:
     version: 1.0.2
     dev: false
 
-  registry.npmmirror.com/vite-plugin-windicss/1.8.3_vite@2.8.6:
-    resolution: {integrity: sha512-RIw2GD6H6cKNE8wZXVOBs4L1uTicVS0FaAkeqXvy1oyuXLC4SXmvnzEuoK0+qFuWJjW0ECNwE8eU+ZZhzNQKUg==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/vite-plugin-windicss/-/vite-plugin-windicss-1.8.3.tgz}
-    id: registry.npmmirror.com/vite-plugin-windicss/1.8.3
-    name: vite-plugin-windicss
-    version: 1.8.3
-    peerDependencies:
-      vite: ^2.0.1
-    dependencies:
-      '@windicss/plugin-utils': registry.npmmirror.com/@windicss/plugin-utils/1.8.3
-      debug: registry.npmmirror.com/debug/4.3.4
-      kolorist: registry.npmmirror.com/kolorist/1.5.1
-      vite: registry.npmmirror.com/vite/2.8.6
-      windicss: registry.npmmirror.com/windicss/3.5.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmmirror.com/vite/2.8.6:
     resolution: {integrity: sha512-e4H0QpludOVKkmOsRyqQ7LTcMUDF3mcgyNU4lmi0B5JUbe0ZxeBBl8VoZ8Y6Rfn9eFKYtdXNPcYK97ZwH+K2ug==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/vite/-/vite-2.8.6.tgz}
     name: vite
@@ -2342,14 +2274,6 @@ packages:
     optionalDependencies:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: false
-
-  registry.npmmirror.com/windicss/3.5.1:
-    resolution: {integrity: sha512-E1hYZATcZFci/XhGS0sJAMRxULjnK+glNukE78Ku7xeb3jxgMY55fFOdIrav+GjQCsgR+IZxPq9/DwmO6eyc4Q==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/windicss/-/windicss-3.5.1.tgz}
-    name: windicss
-    version: 3.5.1
-    engines: {node: '>= 12'}
-    hasBin: true
-    dev: true
 
   registry.npmmirror.com/wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==, registry: https://registry.nlark.com/, tarball: https://registry.npmmirror.com/wrappy/-/wrappy-1.0.2.tgz}
