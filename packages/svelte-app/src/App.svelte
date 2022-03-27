@@ -4,7 +4,6 @@
 
   export const url = "";
 </script>
-
 <Router url="{url}">
   <Route path="/" component="{HomePage}" />
 </Router>

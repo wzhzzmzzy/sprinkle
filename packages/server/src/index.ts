@@ -23,7 +23,7 @@ async function startServer() {
   const server = createServer()
   await server.ready()
   await server.listen(3001)
-  server.log.info('Server is listening at http://localhost:3001')
+  console.log('Server is listening at http://localhost:3001')
 }
 
 startServer()

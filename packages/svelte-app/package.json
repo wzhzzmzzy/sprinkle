@@ -7,8 +7,13 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@tsconfig/svelte": "^2.0.1",
     "@types/js-cookie": "^3.0.1",
     "js-cookie": "^3.0.1",
-    "svelte-navigator": "^3.1.5"
+    "svelte": "^3.44.0",
+    "svelte-check": "^2.2.7",
+    "svelte-navigator": "^3.1.5",
+    "svelte-preprocess": "^4.9.8"
   }
 }
