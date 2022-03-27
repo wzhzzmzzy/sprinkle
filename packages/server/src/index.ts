@@ -1,18 +1,10 @@
-import * as path from 'path';
-import * as process from "process";
 import Fastify, {FastifyInstance} from "fastify";
-import FastifyStatic from 'fastify-static';
-import viteRender from "./plugin/vite-ssr";
+import viteRender, { ViteRenderOptions } from "./plugin/vite-ssr";
 
 function createServer(): FastifyInstance {
   const app = Fastify ()
 
-  app.register(FastifyStatic, {
-    root: path.join(__dirname, '../public'),
-    prefix: '/public/', // optional: default '/'
-  })
-
-  app.register(viteRender)
+  app.register<ViteRenderOptions>(viteRender, { appPackage: '@sprinkle/svelte-app' })
 
   app.get('/', async (request, reply) => {
     try {
@@ -30,12 +22,8 @@ function createServer(): FastifyInstance {
 async function startServer() {
   const server = createServer()
   await server.ready()
-  server.listen(3001, function (err, address) {
-    if (err) {
-      server.log.error(err)
-      process.exit(1)
-    }
-  })
+  await server.listen(3001)
+  server.log.info('Server is listening at http://localhost:3001')
 }
 
 startServer()
