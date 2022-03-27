@@ -11,15 +11,27 @@ import FastifyCompress from 'fastify-compress';
 import fp from 'fastify-plugin';
 import type { ViteDevServer } from "vite";
 
-const viteRenderDev : FastifyPluginAsync = (
+export interface ViteRenderOptions {
+  appPackage: string
+}
+
+function svelteModuleRender (template : string, serverModule : any, props : Record<string, any>) {
+  const res = serverModule.default.render(props)
+  return template
+    .replace(`<!--ssr-outlet-->`, res.html)
+    .replace(`<!--css-outlet-->`, res.css?.code)
+    .replace(`<!--head-outlet-->`, res.head)
+}
+
+
+const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
   fastify,
   opts,
 ) => {
   const { createServer: createViteServer } = require('vite')
   const promise = createViteServer({
-    server: { middlewareMode: 'ssr' }
+    configFile: require.resolve(`${opts.appPackage}/vite.config.ts`),
   }).then(async (viteServer : ViteDevServer) => {
-    // @ts-ignore
     await fastify.register(middiePlugin)
     fastify.use(viteServer.middlewares)
     return viteServer
@@ -32,19 +44,14 @@ const viteRenderDev : FastifyPluginAsync = (
         const template = await viteServer.transformIndexHtml(
           url,
           fs.readFileSync(
-            require.resolve('@sprinkle/svelte-app/index.html'),
+            require.resolve(`${opts.appPackage}/index.html`),
             'utf-8'
           )
         )
-
-        const { default: serverModule } = await viteServer.ssrLoadModule(
-          require.resolve('@sprinkle/svelte-app/src/App.svelte')
+        const serverModule = await viteServer.ssrLoadModule(
+          require.resolve(`${opts.appPackage}/src/main.ts`)
         )
-        const res = serverModule.render({ url })
-        return template
-          .replace(`<!--ssr-outlet-->`, res.html)
-          // .replace(`<!--css-outlet-->`, css)
-          // .replace(`<!--head-outlet-->`, head)
+        return svelteModuleRender(template, serverModule, { url })
       } catch (e) {
         viteServer.ssrFixStacktrace(e as Error)
         request.log.error(e)
@@ -59,28 +66,27 @@ const viteRenderDev : FastifyPluginAsync = (
   return promise.then(() => {})
 }
 
-const viteRender : FastifyPluginCallback = (
+const viteRender : FastifyPluginCallback<ViteRenderOptions> = (
   fastify,
   opts,
   done
 ) => {
   fastify.decorate('viteRender', ssrRender)
-  const distPath = path.join(__dirname, '../../../../dist');
+  const distPath = path.join(process.cwd(), 'dist')
 
   fastify.register(FastifyCompress, {})
   fastify.register(FastifyStatic, {
-    // monorepo 根目录
-    root: distPath,
+    root: path.join(distPath, 'client'),
   })
 
   const template = fs.readFileSync(path.join(distPath, 'client/index.html'), 'utf-8')
   // const manifest = require(path.join(distPath, 'client/ssr-manifest.json'))
-  const { render } = require(path.join(distPath, 'server/entry-server.js'))
+  const serverModule = require(path.join(distPath, 'server/main.js'))
 
   function ssrRender(request: FastifyRequest) {
     try {
-      const { head, html, css } = render(request.url)
-      return template.replace(`<!--ssr-outlet-->`, html)
+      const { url } = request
+      return svelteModuleRender(template, serverModule, { url })
     } catch (e) {
       request.log.error(e)
       throw e;
