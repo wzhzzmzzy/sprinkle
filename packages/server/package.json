@@ -16,6 +16,7 @@
     "fastify-static": "^4.6.1",
     "middie": "^6.0.0",
     "pino-pretty": "^7.6.0",
-    "@sprinkle/svelte-app": "workspace:*"
+    "@sprinkle/svelte-app": "workspace:*",
+    "@sprinkle/react-app": "workspace:*"
   }
 }

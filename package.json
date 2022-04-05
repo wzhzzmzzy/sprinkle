@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:svelte": "ts-node ./packages/server/src/index.ts",
-    "serve:svelte": "ts-node ./packages/server/src/index.ts",
+    "dev": "ts-node ./packages/server/src/index.ts",
+    "serve": "ts-node ./packages/server/src/index.ts",
     "build:svelte:client": "vite build -c packages/svelte-app/vite.config.ts",
     "build:svelte:server": "vite build -c packages/svelte-app/vite.config.noexternal.ts",
     "build:svelte": "pnpm run build:svelte:client & pnpm run build:svelte:server"
@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^17.0.21",
+    "fastify": "^3.27.4",
     "immer": "^9.0.12",
     "ts-node": "^10.7.0",
     "tslib": "^2.3.1",

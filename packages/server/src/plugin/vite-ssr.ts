@@ -13,6 +13,7 @@ import type { ViteDevServer } from "vite";
 
 export interface ViteRenderOptions {
   appPackage: string
+  framework: 'svelte' | 'react'
 }
 
 function svelteModuleRender (template : string, serverModule : any, props : Record<string, any>) {
@@ -23,6 +24,12 @@ function svelteModuleRender (template : string, serverModule : any, props : Reco
     .replace(`<!--head-outlet-->`, res.head)
 }
 
+function reactModuleRender (template : string, serverModule : any, props: Record<string, any>) {
+  const res = serverModule.default.render(props)
+  return template
+    .replace(`<!--ssr-outlet-->`, res.html)
+    .replace(`<!--head-outlet-->`, res.head)
+}
 
 const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
   fastify,
@@ -33,6 +40,7 @@ const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
     configFile: require.resolve(`${opts.appPackage}/vite.config.ts`),
   }).then(async (viteServer : ViteDevServer) => {
     await fastify.register(middiePlugin)
+    // @ts-ignore
     fastify.use(viteServer.middlewares)
     return viteServer
   })
@@ -49,9 +57,21 @@ const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
           )
         )
         const serverModule = await viteServer.ssrLoadModule(
-          require.resolve(`${opts.appPackage}/src/main.ts`)
+          require.resolve(
+            opts.framework === 'react'
+              ? `${opts.appPackage}/src/main.tsx`
+              : `${opts.appPackage}/src/main.ts`
+          )
         )
-        return svelteModuleRender(template, serverModule, { url })
+
+        if (opts.framework === 'svelte') {
+          return svelteModuleRender(template, serverModule, { url })
+        } else if (opts.framework === 'react') {
+          return reactModuleRender(template, serverModule, { url })
+        } else {
+          throw new Error(`Unknown framework: ${opts.framework}`)
+        }
+
       } catch (e) {
         viteServer.ssrFixStacktrace(e as Error)
         request.log.error(e)
