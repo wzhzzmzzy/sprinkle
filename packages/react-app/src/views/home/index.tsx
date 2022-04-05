@@ -1,11 +1,15 @@
-import {useState} from "react";
-import {Helmet} from "react-helmet";
-import HomeStyle from './index.module.css';
+import {useState} from 'react'
+import {Helmet} from 'react-helmet'
+import { css } from '@emotion/react'
+
+const style = css`
+  color: hotpink;
+`
 
 function Home() {
   const [count, setCount] = useState(0)
   return (
-    <div className={HomeStyle.Home}>
+    <div css={style}>
       <Helmet>
         <title>Home</title>
       </Helmet>

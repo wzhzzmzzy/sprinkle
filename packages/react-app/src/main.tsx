@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from "react-router-dom";
-import App from './App'
 import ReactDomServer from "react-dom/server";
+import { BrowserRouter } from "react-router-dom";
 import {StaticRouter} from "react-router-dom/server";
 import {Helmet} from "react-helmet";
+import App from './App'
 
 function render({ url }: { url?: string } = {}) {
   if (import.meta.env.SSR && typeof url !== "undefined") {

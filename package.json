@@ -9,14 +9,22 @@
     "serve": "ts-node ./packages/server/src/index.ts",
     "build:svelte:client": "vite build -c packages/svelte-app/vite.config.ts",
     "build:svelte:server": "vite build -c packages/svelte-app/vite.config.noexternal.ts",
-    "build:svelte": "pnpm run build:svelte:client & pnpm run build:svelte:server"
+    "build:svelte": "pnpm run build:svelte:client & pnpm run build:svelte:server",
+    "build:react:client": "vite build -c packages/react-app/vite.config.ts",
+    "build:react:server": "vite build -c packages/react-app/vite.config.noexternal.ts",
+    "build:react": "pnpm run build:react:client & pnpm run build:react:server"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^17.0.21",
     "fastify": "^3.27.4",
-    "immer": "^9.0.12",
+    "immer": "^9.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint": "^8.12.0",
     "ts-node": "^10.7.0",
     "tslib": "^2.3.1",
     "typescript": "^4.6.2",

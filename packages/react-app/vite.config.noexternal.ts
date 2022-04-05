@@ -4,6 +4,7 @@ import {resolve} from "path";
 export default Object.assign(config, {
   build: {
     ssr: true,
+    ssrManifest: true,
     outDir: '../../dist/server',
     rollupOptions: {
       input: {

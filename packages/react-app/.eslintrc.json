@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "../../.eslintrc.js",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "ignorePatterns": [
+    "public"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2020": true
+  }
+}
