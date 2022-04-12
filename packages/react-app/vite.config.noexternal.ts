@@ -10,6 +10,10 @@ export default Object.assign(config, {
       input: {
         main: resolve(__dirname, 'src/main.tsx'),
       },
+      external: [
+        'react',
+        'excel-wasm'
+      ]
     }
   }
 })

@@ -10,10 +10,11 @@
     "build:svelte:client": "vite build -c packages/svelte-app/vite.config.ts",
     "build:svelte:server": "vite build -c packages/svelte-app/vite.config.noexternal.ts",
     "build:svelte": "pnpm run build:svelte:client & pnpm run build:svelte:server",
-    "build:react:client": "vite build -c packages/react-app/vite.config.ts",
+    "build:react:client": "vite build -c packages/react-app/vite.config.ts --emptyOutDir",
     "build:react:server": "vite build -c packages/react-app/vite.config.noexternal.ts",
     "build:react": "pnpm run build:react:client & pnpm run build:react:server",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "build-wasm": "wasm-pack build packages/excel-wasm"
   },
   "author": "wzhzzmzzy",
   "license": "MIT",
