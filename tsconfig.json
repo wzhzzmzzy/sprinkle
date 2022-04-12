@@ -8,6 +8,7 @@
     // whatever paths you intend to lint
     "packages/react-app",
     "packages/svelte-app",
-    "packages/server"
+    "packages/server",
+    "**/*.config.ts"
   ]
 }
