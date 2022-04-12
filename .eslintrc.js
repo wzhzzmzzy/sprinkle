@@ -14,7 +14,7 @@ module.exports = {
     },
   ],
   plugins: ['@typescript-eslint'],
-  'rules': {
+  rules: {
     '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/quotes': ['error', 'single'],
     '@typescript-eslint/semi': ['error', 'never'],

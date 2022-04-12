@@ -1,15 +1,11 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import {
-  FastifyPluginAsync,
-  FastifyPluginCallback,
-  FastifyRequest
-} from "fastify";
-import middiePlugin from "middie";
-import FastifyStatic from "fastify-static";
-import FastifyCompress from 'fastify-compress';
-import fp from 'fastify-plugin';
-import type { ViteDevServer } from "vite";
+import * as fs from 'fs'
+import * as path from 'path'
+import {FastifyPluginAsync, FastifyPluginCallback, FastifyRequest} from 'fastify'
+import middiePlugin from 'middie'
+import FastifyStatic from 'fastify-static'
+import FastifyCompress from 'fastify-compress'
+import fp from 'fastify-plugin'
+import type {ViteDevServer} from 'vite'
 
 export interface ViteRenderOptions {
   appPackage: string
@@ -19,16 +15,16 @@ export interface ViteRenderOptions {
 function svelteModuleRender (template : string, serverModule : any, props : Record<string, any>) {
   const res = serverModule.default.render(props)
   return template
-    .replace(`<!--ssr-outlet-->`, res.html)
-    .replace(`<!--css-outlet-->`, res.css?.code)
-    .replace(`<!--head-outlet-->`, res.head)
+    .replace('<!--ssr-outlet-->', res.html)
+    .replace('<!--css-outlet-->', res.css?.code)
+    .replace('<!--head-outlet-->', res.head)
 }
 
 function reactModuleRender (template : string, serverModule : any, props: Record<string, any>) {
   const res = serverModule.default.render(props)
   return template
-    .replace(`<!--ssr-outlet-->`, res.html)
-    .replace(`<!--head-outlet-->`, res.head)
+    .replace('<!--ssr-outlet-->', res.html)
+    .replace('<!--head-outlet-->', res.head)
 }
 
 const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
@@ -75,7 +71,7 @@ const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
       } catch (e) {
         viteServer.ssrFixStacktrace(e as Error)
         request.log.error(e)
-        throw e;
+        throw e
       }
     })
   }
@@ -94,8 +90,8 @@ const viteRender : FastifyPluginCallback<ViteRenderOptions> = (
   fastify.decorate('viteRender', ssrRender)
   const distPath = path.join(process.cwd(), 'dist')
 
-  fastify.register(FastifyCompress, {})
-  fastify.register(FastifyStatic, {
+  void fastify.register(FastifyCompress, {})
+  void fastify.register(FastifyStatic, {
     root: path.join(distPath, 'client'),
   })
 
@@ -106,10 +102,16 @@ const viteRender : FastifyPluginCallback<ViteRenderOptions> = (
   function ssrRender(request: FastifyRequest) {
     try {
       const { url } = request
-      return svelteModuleRender(template, serverModule, { url })
+      if (opts.framework === 'svelte') {
+        return svelteModuleRender(template, serverModule, { url })
+      } else if (opts.framework === 'react') {
+        return reactModuleRender(template, serverModule, { url })
+      } else {
+        throw new Error(`Unknown framework: ${opts.framework}`)
+      }
     } catch (e) {
       request.log.error(e)
-      throw e;
+      throw e
     }
   }
 

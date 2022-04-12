@@ -1,5 +1,5 @@
-import Fastify, {FastifyInstance} from "fastify";
-import viteRender, { ViteRenderOptions } from "./plugin/vite-ssr";
+import Fastify, {FastifyInstance} from 'fastify'
+import viteRender, {ViteRenderOptions} from './plugin/vite-ssr'
 
 function createServer(): FastifyInstance {
   const app = Fastify ()
@@ -17,10 +17,10 @@ function createServer(): FastifyInstance {
   app.get('*', async (request, reply) => {
     try {
       // @ts-ignore
-      const html = await app.viteRender(request)
-      reply.type('text/html').send(html)
+      const html = await app.viteRender(request) as string
+      void reply.type('text/html').send(html)
     } catch (e) {
-      reply.status(500).send(e)
+      void reply.status(500).send(e)
     }
   })
 

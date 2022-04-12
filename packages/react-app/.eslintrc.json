@@ -11,5 +11,8 @@
     "browser": true,
     "node": true,
     "es2020": true
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off"
   }
 }
