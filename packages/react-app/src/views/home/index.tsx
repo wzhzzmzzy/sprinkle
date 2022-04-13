@@ -1,5 +1,5 @@
 import {Helmet} from 'react-helmet'
-import TinyExcel from '../../components/tiny-excel'
+import TinyExcel from '@/components/tiny-excel'
 
 function Home() {
   return (

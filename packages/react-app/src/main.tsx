@@ -4,6 +4,7 @@ import {renderToString} from 'react-dom/server'
 import {BrowserRouter} from 'react-router-dom'
 import {StaticRouter} from 'react-router-dom/server'
 import {Helmet} from 'react-helmet'
+import init from 'excel-wasm'
 import App from './App'
 
 function render({url}: { url?: string } = {}) {
@@ -21,6 +22,7 @@ function render({url}: { url?: string } = {}) {
     `
     return {html, head}
   } else {
+    void init()
     hydrate(
       <BrowserRouter>
         <App/>

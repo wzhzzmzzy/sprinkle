@@ -14,7 +14,7 @@
     "build:react:server": "vite build -c packages/react-app/vite.config.noexternal.ts",
     "build:react": "pnpm run build:react:client & pnpm run build:react:server",
     "pre-commit": "lint-staged",
-    "build-wasm": "wasm-pack build packages/excel-wasm"
+    "build-wasm": "wasm-pack build packages/excel-wasm --out-dir ../excel-wasm-dist --target web"
   },
   "author": "wzhzzmzzy",
   "license": "MIT",

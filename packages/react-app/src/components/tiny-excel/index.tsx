@@ -1,6 +1,6 @@
 import {css} from '@emotion/react'
-import {useState} from 'react'
-// import {greet} from 'excel-wasm'
+import {useEffect, useState} from 'react'
+import {greet} from '@/utils/wasm'
 
 const rowStyle = css`
   display: flex;
@@ -8,8 +8,12 @@ const rowStyle = css`
 `
 
 const cellStyle = css`
+  flex-grow: 0;
+  flex-shrink: 0;
   line-height: 1.5em;
-  
+  width: 50px;
+  border: 1px solid #ddd;
+  padding: 0 3px;
 `
 
 interface TinyExcelCellProps {
@@ -18,7 +22,7 @@ interface TinyExcelCellProps {
 }
 
 const TinyExcelCell = (props: TinyExcelCellProps) => {
-  return <div>{props.value}</div>
+  return <div css={cellStyle}>{props.value}</div>
 }
 
 interface TinyExcelRowProps {
@@ -41,16 +45,10 @@ const TinyExcel = () => {
     new Array(26).fill(null).map((_, index) => String.fromCharCode(97 + index)),
   ])
 
-  // // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  // greet('Hello, world!')
+  useEffect(() => {
+    void greet('world')
+  }, [])
 
-  const rust = import('excel-wasm')
-  rust
-    .then(m => {
-      console.warn(m)
-      m.greet('World!')
-    })
-    .catch(console.error)
 
   return (
     <div>
