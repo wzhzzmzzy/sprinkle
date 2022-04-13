@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node ./packages/server/src/index.ts",
-    "serve": "ts-node ./packages/server/src/index.ts",
+    "dev": "NODE_ENV=\"development\" ts-node ./packages/server/src/index.ts",
+    "serve": "NODE_ENV=\"production\" ts-node ./packages/server/src/index.ts",
     "build:svelte:client": "vite build -c packages/svelte-app/vite.config.ts",
     "build:svelte:server": "vite build -c packages/svelte-app/vite.config.noexternal.ts",
     "build:svelte": "pnpm run build:svelte:client & pnpm run build:svelte:server",

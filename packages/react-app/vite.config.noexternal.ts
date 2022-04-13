@@ -1,5 +1,5 @@
 import config from './vite.config'
-import {resolve} from "path";
+import {resolve} from 'path'
 
 export default Object.assign(config, {
   build: {
