@@ -40,7 +40,7 @@ const TinyExcelRow = (props: TinyExcelRowProps) => {
 }
 
 const TinyExcel = () => {
-  const [tableData, setTableData] = useState<string[][]>([
+  const [tableData,] = useState<string[][]>([
     new Array(26).fill(null).map((_, index) => String.fromCharCode(65 + index)),
     new Array(26).fill(null).map((_, index) => String.fromCharCode(97 + index)),
   ])
@@ -48,7 +48,6 @@ const TinyExcel = () => {
   useEffect(() => {
     void greet('world')
   }, [])
-
 
   return (
     <div>

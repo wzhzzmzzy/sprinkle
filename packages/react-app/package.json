@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pre-commit": "lint-staged"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
