@@ -1,5 +1,7 @@
-import {Helmet} from 'react-helmet'
-import TinyExcel from '@/components/tiny-excel'
+import {Helmet} from 'react-helmet-async'
+import Counter from '@/views/home/test'
+
+// import TinyExcel from '@/components/tiny-excel'
 
 function Home() {
   return (
@@ -7,7 +9,7 @@ function Home() {
       <Helmet>
         <title>Home</title>
       </Helmet>
-      <TinyExcel />
+      <Counter />
     </>
   )
 }

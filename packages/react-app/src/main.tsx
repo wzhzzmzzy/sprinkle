@@ -1,33 +1,40 @@
 import React from 'react'
-import {hydrate} from 'react-dom'
+import {hydrateRoot} from 'react-dom/client'
 import {renderToString} from 'react-dom/server'
 import {BrowserRouter} from 'react-router-dom'
 import {StaticRouter} from 'react-router-dom/server'
-import {Helmet} from 'react-helmet'
+import {FilledContext, HelmetProvider} from 'react-helmet-async'
 import init from 'excel-wasm'
 import App from './App'
 
 function render({url}: { url?: string } = {}) {
+  const helmetContext = {}
   if (import.meta.env.SSR && typeof url !== 'undefined') {
     const html = renderToString(
-      <StaticRouter location={url}>
-        <App/>
-      </StaticRouter>
+      <HelmetProvider context={helmetContext}>
+        <StaticRouter location={url}>
+          <App/>
+        </StaticRouter>
+      </HelmetProvider>
     )
-    const helmetStatic = Helmet.renderStatic()
+    const helmetStatic = (helmetContext as FilledContext).helmet
     const head = `
     ${helmetStatic.title.toString()}
+    ${helmetStatic.priority.toString()}
     ${helmetStatic.meta.toString()}
     ${helmetStatic.link.toString()}
+    ${helmetStatic.script.toString()}
     `
     return {html, head}
   } else {
     void init()
-    hydrate(
-      <BrowserRouter>
-        <App/>
-      </BrowserRouter>,
-      document.getElementById('app')
+    hydrateRoot(
+      document.getElementById('app') as HTMLElement,
+      <HelmetProvider>
+        <BrowserRouter>
+          <App/>
+        </BrowserRouter>
+      </HelmetProvider>
     )
   }
 }

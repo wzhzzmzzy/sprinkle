@@ -12,7 +12,26 @@ export interface ViteRenderOptions {
   framework: 'svelte' | 'react'
 }
 
-function svelteModuleRender (template : string, serverModule : any, props : Record<string, any>) {
+type ViteRenderServerModule<T> = {
+  default: {
+    render: (props: Record<string, string>) => T
+  }
+}
+
+type SvelteRenderServerModule = ViteRenderServerModule<{
+  html: string
+  css: { code?: string }
+  head: string
+}>
+
+type ReactRenderServerModule = ViteRenderServerModule<{
+  html: string
+  head: string
+}>
+
+type ServerModuleRender = (template: string, serverModule: SvelteRenderServerModule, props: Record<string, string>) => string
+
+const svelteModuleRender : ServerModuleRender = (template, serverModule, props) => {
   const res = serverModule.default.render(props)
   return template
     .replace('<!--ssr-outlet-->', res.html)
@@ -20,26 +39,27 @@ function svelteModuleRender (template : string, serverModule : any, props : Reco
     .replace('<!--head-outlet-->', res.head)
 }
 
-function reactModuleRender (template : string, serverModule : any, props: Record<string, any>) {
+function reactModuleRender (template : string, serverModule : ReactRenderServerModule, props: Record<string, string>) {
   const res = serverModule.default.render(props)
   return template
     .replace('<!--ssr-outlet-->', res.html)
     .replace('<!--head-outlet-->', res.head)
 }
 
-const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
+const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = async (
   fastify,
   opts,
 ) => {
-  const { createServer: createViteServer } = require('vite')
-  const promise = createViteServer({
-    configFile: require.resolve(`${opts.appPackage}/vite.config.ts`),
-  }).then(async (viteServer : ViteDevServer) => {
-    await fastify.register(middiePlugin)
-    // @ts-ignore
-    fastify.use(viteServer.middlewares)
-    return viteServer
-  })
+  const importPromise = import('vite')
+  const promise = importPromise
+    .then(({ createServer }) => createServer({
+      configFile: require.resolve(`${opts.appPackage}/vite.config.ts`),
+    }))
+    .then(async (viteServer : ViteDevServer) => {
+      await fastify.register(middiePlugin)
+      fastify.use(viteServer.middlewares)
+      return viteServer
+    })
 
   function ssrRender(request: FastifyRequest) {
     return promise.then(async (viteServer : ViteDevServer) => {
@@ -61,11 +81,11 @@ const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
         )
 
         if (opts.framework === 'svelte') {
-          return svelteModuleRender(template, serverModule, { url })
+          return svelteModuleRender(template, serverModule as SvelteRenderServerModule, { url })
         } else if (opts.framework === 'react') {
-          return reactModuleRender(template, serverModule, { url })
+          return reactModuleRender(template, serverModule as ReactRenderServerModule, { url })
         } else {
-          throw new Error(`Unknown framework: ${opts.framework}`)
+          throw new Error(`Unknown framework: ${opts.framework as string}`)
         }
 
       } catch (e) {
@@ -79,7 +99,7 @@ const viteRenderDev : FastifyPluginAsync<ViteRenderOptions> = (
   fastify.decorate('viteRender', ssrRender)
   fastify.log.info('Added `render` method to fastify instance')
 
-  return promise.then(() => {})
+  await promise
 }
 
 const viteRender : FastifyPluginCallback<ViteRenderOptions> = (
@@ -97,17 +117,17 @@ const viteRender : FastifyPluginCallback<ViteRenderOptions> = (
 
   const template = fs.readFileSync(path.join(distPath, 'client/index.html'), 'utf-8')
   // const manifest = require(path.join(distPath, 'client/ssr-manifest.json'))
-  const serverModule = require(path.join(distPath, 'server/main.js'))
+  const serverModule = require(path.join(distPath, 'server/main.js')) as SvelteRenderServerModule | ReactRenderServerModule
 
   function ssrRender(request: FastifyRequest) {
     try {
       const { url } = request
       if (opts.framework === 'svelte') {
-        return svelteModuleRender(template, serverModule, { url })
+        return svelteModuleRender(template, serverModule as SvelteRenderServerModule, { url })
       } else if (opts.framework === 'react') {
-        return reactModuleRender(template, serverModule, { url })
+        return reactModuleRender(template, serverModule as ReactRenderServerModule, { url })
       } else {
-        throw new Error(`Unknown framework: ${opts.framework}`)
+        throw new Error(`Unknown framework: ${opts.framework as string}`)
       }
     } catch (e) {
       request.log.error(e)
